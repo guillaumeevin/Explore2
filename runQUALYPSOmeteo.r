@@ -116,7 +116,6 @@ for(iindic in 1:nrow(dfIndicMeteo)){
     QOUT$listOption=NA #to not store twice the same information
     QOUT$RESERR=NA
     QOUT$CHANGEBYEFFECT=NA
-    QOUT$CLIMATERESPONSE=NA
     saveRDS(QOUT,file=paste0(fQI,i1,"_",i2,".rds"))
   }
 }
