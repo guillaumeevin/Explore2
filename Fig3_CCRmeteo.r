@@ -1,8 +1,6 @@
 # Guillaume Evin
 # Explore2
-# Make figures from Qualypso runs for report
-
-library(patchwork)
+# Figure 3: climate change responses for meteo indicators
 
 source("./lib_functions.r")
 
@@ -82,7 +80,7 @@ for(rcp in rcp_names){
         vecFileQUALYPSO = paste0("../QUALYPSOOUT/Meteo/",indic,"/",
                                  indexPixel[,1],"_",indexPixel[,2],".rds")
         
-        ###### map.3quant.3rcp.1horiz #####
+        # map.3quant.1rcp.1hori
         lout[[seas]] = get.output.map.3quant.1rcp.1horiz(quant=quant,dfCoords=dfCoords,
                                                          horiz=horiz,
                                                          vecFileQUALYPSO=vecFileQUALYPSO,
