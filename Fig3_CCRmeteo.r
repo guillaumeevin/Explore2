@@ -152,10 +152,10 @@ for(rcp in rcp_names){
          plot=plt,device = "jpeg",units="cm",height=27,width=25,dpi=200)
   
   # Figure 3b: ET0 / RX1D
+  lplt$rx1day = lplt$rx1day + theme(plot.margin=grid::unit(c(-5,0,0,0), "mm"))
   plt = ggarrange(lplt$evspsblpot,lplt$rx1day,nrow=2,ncol=1,labels = c("ET0","RX1D"),
-                  heights = c(2,1),widths = 1, align ="h",
+                  heights = c(2,1),widths = 1, align ="h",vjust=c(1.5,0.5),
                   font.label = list(size = 20, color = "black", face = "bold", family = NULL))
   ggsave(filename = paste0("../FIGURES/Fig3b_",rcp,"_",horiz,".jpg"),
          plot=plt,device = "jpeg",units="cm",height=22,width=25,dpi=200)
-  
 }
