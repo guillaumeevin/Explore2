@@ -7,6 +7,7 @@ library(dplyr)
 library(tidyr)
 library(ungeviz)
 library(reshape2)
+library(multipanelfigure)
 
 source("./lib_functions.r")
 
@@ -263,8 +264,15 @@ pltEffect = ggplot(dfPlot, aes(regime, effect, colour = model)) +
         strip.text = element_text(face="bold",size = 20), 
         legend.position="none")
 
-ggsave(filename = paste0("../FIGURES/Fig10_boxplots_effects_regime.pdf"),
+ggsave(filename = "../FIGURES/Fig10_boxplots_effects_regime.pdf",
        plot=pltEffect,device = "pdf",units="cm",height=30,width=30)
 
+# add legend
+svg_legend = "../FIGURES/legend_fiche_SMASH_CTRIP_GRSD_ORCHIDEE.svg"
 
+multi_panel_figure(width = c(180), height = c(230, 50), 
+                   row_spacing = 0, column_spacing = 0) %>%
+  fill_panel(pltEffect, label = "",row = 1,column=1) %>%
+  fill_panel(svg_legend, label = "",scaling="fit", row=2, column=1) %>%
+  save_multi_panel_figure(filename = "../FIGURES/Fig10_boxplots_effects_regime_withLegend.pdf")
 
