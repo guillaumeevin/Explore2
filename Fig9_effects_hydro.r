@@ -6,6 +6,7 @@ library(sp)
 
 source("./lib_functions.r")
 
+
 ##############
 # Resources #
 ##############
@@ -160,5 +161,5 @@ plt=base_map(data=out.reorder,zoom=zoom)+
   theme(panel.border = element_rect(colour = "black", fill=NA))+
   theme(strip.text = element_text(size = 20, face = "bold"),strip.background=element_blank())
 
-ggsave(filename = paste0("../FIGURES/Fig10_effectsHM_",horiz,".jpg"),
+ggsave(filename = paste0("../FIGURES/Fig9_effectsHM_",horiz,".jpg"),
        plot=plt,device = "jpeg",units="cm",height=25,width=30,dpi=200)
