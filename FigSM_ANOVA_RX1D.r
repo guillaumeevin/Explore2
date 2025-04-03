@@ -115,8 +115,8 @@ plt[["ANOVA"]] = base_map(data = out,zoom=zoom)+
 # PLOT 1: uncertainty climate change reponses and internal variability
 
 # tas : UNC, IV
-pUnc = plt$UNC + ggtitle("JJA") + scale_y_continuous(name ="UNC") +
-  theme(plot.title = element_text(hjust = 0.5,size = 40),
+pUnc = plt$UNC + ggtitle("Year") + scale_y_continuous(name ="UNC") +
+  theme(plot.title = element_text(hjust = 0.5,size = 40, face = "bold",color = "white"),
         axis.title.y=element_text(size=40, face = "bold"))
 pIV = plt$IV  + scale_y_continuous(name ="IV") +
   theme(axis.title.y=element_text(size=40, face = "bold"))
@@ -127,8 +127,10 @@ pltIVUNC = ggarrange(pUnc,pIV,common.legend = TRUE, legend="bottom",ncol = 1, nr
 pltANOVA = ggarrange(plt$ANOVA,
                      common.legend = TRUE, legend="bottom",ncol = 1,
                      widths = c(1))
+pltANOVAtitle = annotate_figure(pltANOVA, top = text_grob("Year", 
+                                      color = "white", face = "bold", size = 40))
 
-lplt = ggarrange(pltIVUNC,pltANOVA,nrow=2,heights = c(28, 45),
+lplt = ggarrange(pltIVUNC,pltANOVAtitle,nrow=2,heights = c(28, 45),
                  labels = c("C","D"),font.label = list(size = 40, color = "black", face = "bold", family = NULL))
 
 ggsave(filename = paste0("../FIGURES/Fig_ANOVA_RX1D_",horiz,".jpg"),

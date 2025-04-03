@@ -178,8 +178,10 @@ pltANOVA = ggarrange(pANOVAtasJJA,pANOVAtasDJF,pANOVAprJJA,pANOVAprDJF,
                      common.legend = TRUE, legend="bottom",ncol = 4,
                      widths = c(1.15,1,1,1))
 
-lplt = ggarrange(pltIVUNC,pltANOVA,nrow=2,heights = c(28, 45),
-                 labels = c("A","B"),font.label = list(size = 40, color = "black", face = "bold", family = NULL))
+# FIGURE: UNC and IV
+ggsave(filename = paste0("../FIGURES/Fig5_ANOVA_meteo_",horiz,"_A.jpg"),
+       plot=pltIVUNC,device = "jpeg",units="cm",height=28,width=45,dpi=200)
 
-ggsave(filename = paste0("../FIGURES/Fig5_ANOVA_meteo_",horiz,".jpg"),
-       plot=lplt,device = "jpeg",units="cm",height=73,width=45,dpi=200)
+# FIGURE: ANOVA DECOMPOSITION
+ggsave(filename = paste0("../FIGURES/Fig5_ANOVA_meteo_",horiz,"_B.jpg"),
+       plot=pltANOVA,device = "jpeg",units="cm",height=45,width=45,dpi=200)

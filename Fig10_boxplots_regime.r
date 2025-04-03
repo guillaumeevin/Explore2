@@ -268,9 +268,9 @@ ggsave(filename = "../FIGURES/Fig10_boxplots_effects_regime.pdf",
        plot=pltEffect,device = "pdf",units="cm",height=30,width=30)
 
 # add legend
-svg_legend = "../FIGURES/legend_fiche_SMASH_CTRIP_GRSD_ORCHIDEE.svg"
+svg_legend = "../FIGURES/legend.png"
 
-multi_panel_figure(width = c(180), height = c(230, 50), 
+multi_panel_figure(width = 240, height = c(230, 50), columns = 1,
                    row_spacing = 0, column_spacing = 0) %>%
   fill_panel(pltEffect, label = "",row = 1,column=1) %>%
   fill_panel(svg_legend, label = "",scaling="fit", row=2, column=1) %>%

@@ -63,7 +63,7 @@ labels[nbrk] = paste0("> ",labels[nbrk])
 mypalette = binned_pal(scales::manual_pal(precip_10))
 
 # France
-zoom = "FR"
+myzoom = "FR"
 
 for(rcp in rcp_names){
   lExut = list()

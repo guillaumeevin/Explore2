@@ -155,8 +155,8 @@ p4 = plt$QMNA$IV + scale_y_continuous(name ="IV") +
 p5 = plt$QA$IV
 p6 = plt$QJXA$IV
 
-pltIVUNC = (p1 + p2 + p3) / (p4 + p5 + p6) + plot_layout(guides = "collect") +
-  plot_annotation(title = 'A', theme = theme(plot.title = element_text(size = 40, face = "bold")))
+pltIVUNC = (p1 + p2 + p3) / (p4 + p5 + p6) + plot_layout(guides = "collect")# +
+#  plot_annotation(title = 'A', theme = theme(plot.title = element_text(size = 40, face = "bold")))
 ggsave(filename = paste0("../FIGURES/Fig6_ANOVA_hydro_",horiz,"_A.jpg"),
        plot=pltIVUNC,device = "jpeg",units="cm",height=20,width=30,dpi=200)
 
@@ -172,8 +172,8 @@ p3 = plt$QJXA$ANOVA + ggtitle("QJXA") +
 
 # merge them
 pltANOVA = ggarrange(p1,p2,p3,common.legend = TRUE, legend="right",ncol = 3,
-                     widths = c(1.12,1,1)) +
-  plot_annotation(title = 'B', theme = theme(plot.title = element_text(size = 40, face = "bold")))
+                     widths = c(1.12,1,1))# +
+#  plot_annotation(title = 'B', theme = theme(plot.title = element_text(size = 40, face = "bold")))
 
 ggsave(filename = paste0("../FIGURES/Fig6_ANOVA_hydro_",horiz,"_B.jpg"),
        plot=pltANOVA,device = "jpeg",units="cm",height=40,width=28,dpi=200)
