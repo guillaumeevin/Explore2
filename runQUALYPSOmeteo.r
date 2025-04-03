@@ -55,7 +55,6 @@ for(iindic in 1:nrow(dfIndicMeteo)){
     nc <- nc_open(file_data)
     v = ncvar_get(nc,varlong)
     time = ncvar_get(nc,"time")
-    time <- ncvar_get(nc,"time")
     tunits <- ncatt_get(nc,"time","units")
     vecTimeCf <- CFtime(tunits$value, calendar = "proleptic_gregorian", time) # convert time to CFtime class
     vecTimeDates <- as_timestamp(vecTimeCf, format = "timestamp")
