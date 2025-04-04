@@ -7,6 +7,7 @@ library(purrr)
 library(ggnewscale)
 library(ggspatial)
 library(tidyverse)
+library(RColorBrewer)
 
 source("./lib_functions.r")
 
@@ -66,7 +67,7 @@ barplot_CM = ggplot(datalong, aes(x=Month, y=CM,fill=Regime))+
 
 
 ##########################################
-# read selection of scenarios & catchments #
+# plot 2: map of the regimes            #
 ##########################################
 # selection stations: 1735 stations where CTRIP, GRSD, ORCHIDEE and SMASH have produced
 # simulations except 4 stations where CTRIP fails to produce non-zero streamflows
@@ -117,7 +118,38 @@ map_regime = base_map(data = coordsL2, zoom = myzoom)+
         legend.text=element_text(size=14)) +
   annotation_scale(text_cex =1.5) + theme(legend.position="none")
 
+
+##########################################
+# plot 3: map of Budyko coefficients     #
+##########################################
+lBudyko = readRDS("../SAFRAN/Budyko.rds")
+background_for_maps(path_river,path_fr)
+
+# coordinates France/SAFRAN grid: list of matrices
+lCoords = readRDS(file = "./coordMeteo.rds")
+isPixel = lCoords$mask
+indexPixel = which(isPixel==1,arr.ind = T)
+nPixels = sum(isPixel)
+selPixel = as.logical(isPixel)
+dfBudyko = data.frame(x=as.vector(lCoords$x_l2[selPixel]),
+                      y=as.vector(lCoords$y_l2[selPixel]),
+                      budyko = as.vector(lBudyko$Budyko[selPixel]))
+
+map_budyko = base_map(data = dfBudyko,zoom="FR")+
+  geom_tile(aes(x=x,y=y,fill=budyko))+
+  geom_sf(data=river_L2,colour="gray80",linewidth=0.1,alpha=0.5)+
+  geom_sf(data=fr_L2,fill=NA,linewidth=0.1,color="black")+
+  guides(fill=guide_colorbar(barwidth = 1.5, barheight = 15,title.position = "top"))+
+  binned_scale(aesthetics = "fill",name="[ETP/P]",
+               palette = binned_pal(scales::manual_pal(rev(precip_6))),
+               guide="coloursteps",limits=c(0, 2.5),
+               breaks=c(0, 0.375, 0.75, 1, 1.5, 2, 2.5),show.limits = T,oob=squish)+
+  theme(panel.border = element_rect(colour = "black", fill=NA),
+        plot.title = element_text(size = 20, face = "bold"),
+        legend.title=element_text(face = "bold",size=14), legend.text=element_text(face = "bold",size=14))
+  
+
 # merge
-plt = ggarrange(barplot_CM,map_regime,ncol=2,widths = c(20, 20),
-                labels = c("A","B"),font.label = list(size = 20, color = "black", face = "bold", family = NULL))
-ggsave(filename = "../FIGURES/Fig1_regime.jpg", plot=plt,device = "jpeg",units="cm",height=20,width=40,dpi=200)
+plt = ggarrange(barplot_CM,map_regime,map_budyko,ncol=3,widths = c(20, 20,25),
+                labels = c("A","B","C"),font.label = list(size = 20, color = "black", face = "bold", family = NULL))
+ggsave(filename = "../FIGURES/Fig1_regime.jpg", plot=plt,device = "jpeg",units="cm",height=20,width=65,dpi=200)
