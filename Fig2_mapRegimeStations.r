@@ -140,12 +140,11 @@ map_budyko = base_map(data = dfBudyko,zoom="FR")+
   geom_sf(data=river_L2,colour="gray80",linewidth=0.1,alpha=0.5)+
   geom_sf(data=fr_L2,fill=NA,linewidth=0.1,color="black")+
   guides(fill=guide_colorbar(barwidth = 1.5, barheight = 15,title.position = "top"))+
-  binned_scale(aesthetics = "fill",name="[ETP/P]",
+  binned_scale(aesthetics = "fill",name="[PET/P]",
                palette = binned_pal(scales::manual_pal(rev(precip_6))),
                guide="coloursteps",limits=c(0, 2.5),
                breaks=c(0, 0.375, 0.75, 1, 1.5, 2, 2.5),show.limits = T,oob=squish)+
-  theme(panel.border = element_rect(colour = "black", fill=NA),
-        plot.title = element_text(size = 20, face = "bold"),
+  theme(plot.title = element_text(size = 20, face = "bold"),
         legend.title=element_text(face = "bold",size=14), legend.text=element_text(face = "bold",size=14))
   
 
