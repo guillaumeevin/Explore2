@@ -38,13 +38,14 @@ dfAllRegime = read.csv2("./dataTotSAF_regimeAuMoins4Modele.csv") # 2500
 iBasinReg = match(code_sel,dfAllRegime$code)
 dfRegime = dfAllRegime[iBasinReg,]
 dfRegime$hydro_regime = factor(dfRegime$hydro_regime, 
-                               levels=c("PTC","PC","P","PMC","PN","NP","N"))
+                               levels=c("PTC","PC","P","PMC","PN","NP","N"),
+                               labels = c("PVC","PC","P","PNC","PN","NP","N"))
 nPoints = nrow(dfRegime)
 
-colRegime = c("PTC" = "#148530ff",
+colRegime = c("PVC" = "#148530ff",
               "PC" ="#21de50ff",
               "P" = "#7aeb96ff",
-              "PMC" = "#d3f8dcff",
+              "PNC" = "#d3f8dcff",
               "PN" = "#88c4ffff",
               "NP" = "#2291ffff",
               "N" = "#0027a2ff")

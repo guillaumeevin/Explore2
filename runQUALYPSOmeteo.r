@@ -90,7 +90,7 @@ for(iindic in 1:nrow(dfIndicMeteo)){
   
   # call QUALYPSO
   # monitor progress
-  pb <- txtProgressBar(min=1, max=nLon, style=3)
+  pb <- txtProgressBar(min=1, max=nPixels, style=3)
   progress <- function(n) setTxtProgressBar(pb, n)
   opts <- list(progress=progress)
   
@@ -103,7 +103,7 @@ for(iindic in 1:nrow(dfIndicMeteo)){
     
     
     # list of options
-    listOption = list(spar=spar,typeChangeVariable=typechangeVar,probCI=probCI)
+    listOption = list(args.smooth.spline=list(spar=spar),typeChangeVariable=typechangeVar,probCI=probCI)
     
     # call QUALYPSO
     QOUT = QUALYPSO(Y=Yp, #one Y and run per pixel because otherwise we cannot have several future times

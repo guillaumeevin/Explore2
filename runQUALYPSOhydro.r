@@ -99,7 +99,7 @@ for(indic in indicHydro){
     
     
     # list of options
-    listOption = list(spar=spar,typeChangeVariable=typechangeVar,probCI=probCI)
+    listOption = list(args.smooth.spline=list(spar=spar),typeChangeVariable=typechangeVar,probCI=probCI)
     
     # call QUALYPSO
     QOUT = QUALYPSO(Y=Yb, #one Y and run per pixel because otherwise we cannot have several future times
