@@ -142,7 +142,7 @@ for(indic in c("QA","QJXA","QMNA")){
 # PLOT 1: uncertainty climate change reponses and internal variability
 
 # tas : UNC, IV
-p1 = plt$QMNA$UNC + ggtitle("QMNA") + scale_y_continuous(name ="UNC") +
+p1 = plt$QMNA$UNC + ggtitle("QMNA") + scale_y_continuous(name ="CCRU") +
   theme(plot.title = element_text(hjust = 0.5,size = 20),
         axis.title.y=element_text(size=20, face = "bold"))
 p2 = plt$QA$UNC + ggtitle("QA") +

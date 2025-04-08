@@ -133,7 +133,7 @@ for(indic in c("tas_JJA","tas_DJF","pr_JJA","pr_DJF")){
 # PLOT 1: uncertainty climate change reponses and internal variability
 
 # tas : UNC, IV
-pTasJJAUnc = plt$tas_JJA$UNC + ggtitle("tas / JJA") + scale_y_continuous(name ="UNC") +
+pTasJJAUnc = plt$tas_JJA$UNC + ggtitle("tas / JJA") + scale_y_continuous(name ="CCRU") +
   theme(plot.title = element_text(hjust = 0.5,size = 40),
         axis.title.y=element_text(size=40, face = "bold"))
 pTasDJFUnc = plt$tas_DJF$UNC + ggtitle("tas / DJF") +
