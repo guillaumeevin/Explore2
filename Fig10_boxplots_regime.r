@@ -63,40 +63,41 @@ rcp.labs <- c("RCP2.6", "RCP4.5", "RCP8.5")
 names(rcp.labs) <- rcp_names
 
 for(indic in c("QA","QJXA","QMNA")){
-  for(rcp in c("rcp26","rcp45","rcp85")){
-    
-    # output from QUALYPSO
-    vecQ = paste0("../QUALYPSOOUT/Hydro/",indic,"/",dfRegime$code,".rds")
-
-    # read outputs
-    QOUT = readRDS(vecQ[1])
-    
-    # index in scenAvail corr to this rcp
-    ir = which(QOUT$listScenarioInput$scenAvail$rcp==rcp)
-    
-    ###### map.3quant.3rcp.1horiz #####
-    Xfut=QOUT$Xfut
-    idx_Xfut=which(Xfut==horiz)
-    
-    ### loop over the basin
-    chg_q50 = vector(length=nPoints)
-    for(i in 1:nPoints){
-      QOUT = readRDS(vecQ[i])
-      phisf = QOUT$CLIMATERESPONSE$phiStar[ir,idx_Xfut]
-      chg_q50[i] = quantile(phisf,probs=0.5)
-    }  
-    
-    # fill df
-    dfRegime$indic = indic
-    dfRegime$rcp = rcp
-    dfRegime$q50 = chg_q50
-    
-    if(indic=="QA"&rcp=="rcp26"){
-      dfPlot = dfRegime
-    }else{
-      dfPlot = rbind(dfPlot,dfRegime)
-    }
+  rcp = "rcp85"
+  #  for(rcp in c("rcp26","rcp45","rcp85")){
+  
+  # output from QUALYPSO
+  vecQ = paste0("../QUALYPSOOUT/Hydro/",indic,"/",dfRegime$code,".rds")
+  
+  # read outputs
+  QOUT = readRDS(vecQ[1])
+  
+  # index in scenAvail corr to this rcp
+  ir = which(QOUT$listScenarioInput$scenAvail$rcp==rcp)
+  
+  ###### map.3quant.3rcp.1horiz #####
+  Xfut=QOUT$Xfut
+  idx_Xfut=which(Xfut==horiz)
+  
+  ### loop over the basin
+  chg_q50 = vector(length=nPoints)
+  for(i in 1:nPoints){
+    QOUT = readRDS(vecQ[i])
+    phisf = QOUT$CLIMATERESPONSE$phiStar[ir,idx_Xfut]
+    chg_q50[i] = quantile(phisf,probs=0.5)
+  }  
+  
+  # fill df
+  dfRegime$indic = indic
+  dfRegime$rcp = rcp
+  dfRegime$q50 = chg_q50
+  
+  if(indic=="QA"){#&rcp=="rcp26"){
+    dfPlot = dfRegime
+  }else{
+    dfPlot = rbind(dfPlot,dfRegime)
   }
+  #  }
 }
 
 dfPlot$indic = factor(dfPlot$indic, levels=c("QMNA","QA","QJXA"))
@@ -182,10 +183,11 @@ pltANOVA = ggplot(dfPlot,aes(hydro_regime,pctVtot))+geom_boxplot(aes(fill=hydro_
 # merge plots
 ########################################################
 plt = pltChange / pltANOVA + 
+  plot_layout(heights = c(0.7, 2)) +
   plot_annotation(tag_levels = list(c('Q50 CCR (%)','%CCRV'))) & theme(plot.tag = element_text(size = 20,face = "bold"))
 
 ggsave(filename = paste0("../FIGURES/Fig10_boxplots_regime.pdf"),
-       plot=plt,device = "pdf",units="cm",height=40,width=30)
+       plot=plt,device = "pdf",units="cm",height=30,width=30)
 
 
 ########################################################
