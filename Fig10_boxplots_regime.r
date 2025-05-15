@@ -110,7 +110,9 @@ pltChange = ggplot(dfPlot,aes(hydro_regime,q50))+geom_boxplot(aes(fill=hydro_reg
         axis.text.x=element_text(size = 14),axis.text.y=element_text(size = 14),
         strip.background=element_blank(),legend.title = element_text(face = "bold",size = 14),
         strip.text = element_text(face = "bold",size = 20), 
-        legend.text = element_text(face = "bold",size = 11),plot.margin=grid::unit(c(0,0,0,0), "mm"))
+        legend.text = element_text(face = "bold",size = 11),plot.margin=grid::unit(c(0,0,0,0), "mm"),
+        plot.title = element_text(size=20, face="bold")) + 
+  ggtitle('A: Q50 CCR (%)')
 
 
 
@@ -177,14 +179,15 @@ pltANOVA = ggplot(dfPlot,aes(hydro_regime,pctVtot))+geom_boxplot(aes(fill=hydro_
         axis.text.x=element_text(size = 14),axis.text.y=element_text(size = 14),
         strip.background=element_blank(),legend.title = element_text(face = "bold",size = 14),
         strip.text = element_text(face = "bold",size = 20), 
-        legend.text = element_text(face = "bold",size = 11),plot.margin=grid::unit(c(0,0,0,0), "mm"))
+        legend.text = element_text(face = "bold",size = 11),plot.margin=grid::unit(c(0,0,0,0), "mm"),
+        plot.title = element_text(size=20, face="bold",margin = margin(20,0,0,0))) + 
+  ggtitle('B: %CCRV')
 
 ########################################################
 # merge plots
 ########################################################
 plt = pltChange / pltANOVA + 
-  plot_layout(heights = c(0.7, 2)) +
-  plot_annotation(tag_levels = list(c('Q50 CCR (%)','%CCRV'))) & theme(plot.tag = element_text(size = 20,face = "bold"))
+  plot_layout(heights = c(0.7, 2))
 
 ggsave(filename = paste0("../FIGURES/Fig10_boxplots_regime.pdf"),
        plot=plt,device = "pdf",units="cm",height=30,width=30)

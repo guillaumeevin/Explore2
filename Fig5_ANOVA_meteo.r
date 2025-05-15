@@ -133,19 +133,19 @@ for(indic in c("tas_JJA","tas_DJF","pr_JJA","pr_DJF")){
 # PLOT 1: uncertainty climate change reponses and internal variability
 
 # tas : UNC, IV
-pTasJJAUnc = plt$tas_JJA$UNC + ggtitle("tas / JJA") + scale_y_continuous(name ="CCRU") +
+pTasJJAUnc = plt$tas_JJA$UNC + ggtitle("TAS / JJA") + scale_y_continuous(name ="CCRU") +
   theme(plot.title = element_text(hjust = 0.5,size = 40),
         axis.title.y=element_text(size=40, face = "bold"))
-pTasDJFUnc = plt$tas_DJF$UNC + ggtitle("tas / DJF") +
+pTasDJFUnc = plt$tas_DJF$UNC + ggtitle("TAS / DJF") +
   theme(plot.title = element_text(hjust = 0.5,size = 40))
 pTasJJAIV = plt$tas_JJA$IV  + scale_y_continuous(name ="IV") +
   theme(axis.title.y=element_text(size=40, face = "bold"))
 pTasDJFIV = plt$tas_DJF$IV
 
 # pr : UNC, IV
-pPrJJAUnc = plt$pr_JJA$UNC + ggtitle("pr / JJA") +
+pPrJJAUnc = plt$pr_JJA$UNC + ggtitle("PR / JJA") +
   theme(plot.title = element_text(hjust = 0.5,size = 40))
-pPrDJFUnc = plt$pr_DJF$UNC + ggtitle("pr / DJF") +
+pPrDJFUnc = plt$pr_DJF$UNC + ggtitle("PR / DJF") +
   theme(plot.title = element_text(hjust = 0.5,size = 40))
 pPrJJAIV = plt$pr_JJA$IV
 pPrDJFIV = plt$pr_DJF$IV
@@ -153,13 +153,13 @@ pPrDJFIV = plt$pr_DJF$IV
 # PLOT 2: ANOVA
 
 # add title columns and remove row labels for the three plots on the right
-pANOVAtasJJA = plt$tas_JJA$ANOVA + ggtitle("tas / JJA") +
+pANOVAtasJJA = plt$tas_JJA$ANOVA + ggtitle("TAS / JJA") +
   theme(plot.title = element_text(size = 40))
-pANOVAtasDJF = plt$tas_DJF$ANOVA + ggtitle("tas / DJF") +
+pANOVAtasDJF = plt$tas_DJF$ANOVA + ggtitle("TAS / DJF") +
   theme(plot.title = element_text(size = 40))
-pANOVAprJJA = plt$pr_JJA$ANOVA + ggtitle("pr / JJA") +
+pANOVAprJJA = plt$pr_JJA$ANOVA + ggtitle("PR / JJA") +
   theme(plot.title = element_text(size = 40))
-pANOVAprDJF = plt$pr_DJF$ANOVA + ggtitle("pr / DJF") +
+pANOVAprDJF = plt$pr_DJF$ANOVA + ggtitle("PR / DJF") +
   theme(plot.title = element_text(size = 40))
 
 # merge them

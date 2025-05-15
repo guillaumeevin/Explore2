@@ -88,9 +88,6 @@ colnames(coordsL2) = c("x","y")
 coordsL2 = as.data.frame(coordsL2)
 coordsL2$code = code_sel
 
-# domain France
-myzoom = "FR"
-
 # read regime
 dfAllRegime = read.csv2("./dataTotSAF_regimeAuMoins4Modele.csv") # 2500
 iBasinReg = match(code_sel,dfAllRegime$code)
@@ -102,7 +99,7 @@ coordsL2$regime = factor(dfRegime$hydro_regime,
                          levels=c("PTC","PC","P","PMC","PN","NP","N"))
 
 # call plot
-map_regime = base_map(data = coordsL2, zoom = myzoom)+
+map_regime = base_map(data = coordsL2, zoom = "FR")+
   geom_sf(data=river_L2,colour="gray80",linewidth=1) +
   geom_sf(data=fr_L2,fill=NA,linewidth=0.5,color="black") +
   geom_point(aes(x=x,y=y,fill = regime),colour="gray",pch=21, size=3)+
@@ -133,15 +130,15 @@ nPixels = sum(isPixel)
 selPixel = as.logical(isPixel)
 dfBudyko = data.frame(x=as.vector(lCoords$x_l2[selPixel]),
                       y=as.vector(lCoords$y_l2[selPixel]),
-                      budyko = as.vector(lBudyko$Budyko[selPixel]))
+                      budyko = as.vector(1/lBudyko$Budyko[selPixel]))
 
 map_budyko = base_map(data = dfBudyko,zoom="FR")+
   geom_tile(aes(x=x,y=y,fill=budyko))+
   geom_sf(data=river_L2,colour="gray80",linewidth=0.1,alpha=0.5)+
   geom_sf(data=fr_L2,fill=NA,linewidth=0.1,color="black")+
   guides(fill=guide_colorbar(barwidth = 1.5, barheight = 15,title.position = "top"))+
-  binned_scale(aesthetics = "fill",name="[PET/P]",
-               palette = binned_pal(scales::manual_pal(rev(precip_6))),
+  binned_scale(aesthetics = "fill",name="[P/PET]",
+               palette = binned_pal(scales::manual_pal(precip_6)),
                guide="coloursteps",limits=c(0, 2.5),
                breaks=c(0, 0.375, 0.75, 1, 1.5, 2, 2.5),show.limits = T,oob=squish)+
   theme(plot.title = element_text(size = 20, face = "bold"),
@@ -149,6 +146,6 @@ map_budyko = base_map(data = dfBudyko,zoom="FR")+
   
 
 # merge
-plt = ggarrange(barplot_CM,map_regime,map_budyko,ncol=3,widths = c(20, 20,25),
+plt = ggarrange(barplot_CM,map_regime,map_budyko,ncol=2,nrow=2,heigths=c(20,20),widths = c(25, 23),
                 labels = c("A","B","C"),font.label = list(size = 20, color = "black", face = "bold", family = NULL))
-ggsave(filename = "../FIGURES/Fig1_regime.jpg", plot=plt,device = "jpeg",units="cm",height=20,width=65,dpi=200)
+ggsave(filename = "../FIGURES/Fig1_regime.jpg", plot=plt,device = "jpeg",units="cm",height=40,width=48,dpi=200)
