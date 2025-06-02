@@ -8,6 +8,11 @@ library(ggnewscale)
 library(ggspatial)
 library(tidyverse)
 library(RColorBrewer)
+library(raster)
+library(maps)
+library(prettymapr)
+library(aplot)
+library(patchwork)
 
 source("./lib_functions.r")
 
@@ -31,7 +36,97 @@ colRegime = c("PVC" = "#148530ff",
               "NP" = "#2291ffff",
               "N" = "#0027a2ff")
 
+shadowtext <- function(x, y=NULL, labels, col='white', bg='black',
+                       theta= seq(0, 2*pi, length.out=50), r=0.1, ... ) {
+  
+  xy <- xy.coords(x,y)
+  xo <- r*strwidth('A')
+  yo <- r*strheight('A')
+  
+  # draw background text with small shift in x and y in background colour
+  for (i in theta) {
+    text( xy$x + cos(i)*xo, xy$y + sin(i)*yo, labels, col=bg, ... )
+  }
+  # draw actual text in exact xy position in foreground colour
+  text(xy$x, xy$y, labels, col=col, ... )
+}
 
+# Fonction transparence:
+transp.col <- function(x,alpha){
+  opal <- col2rgb(x, alpha = TRUE)/255
+  opal["alpha", ] <- alpha
+  mycol <- do.call(rgb, as.list(as.data.frame(t(opal))))
+  return(mycol)
+}
+
+mnt.rel=raster("../SIG/MNT250_LIIe_FRANCE.tif",crs = "+init=epsg:27572")
+mnt.shd=raster("../SIG/france_shd.tif",crs = "+init=epsg:27572")
+mers.sp=sf::st_read("../SIG/oceans")
+rivs.lg=sf::st_read("../SIG/Rivieres")
+fleuve.lg=sf::st_read("../SIG/Fleuves")
+euro.sp=sf::st_read("../SIG/Europe_Ouest")
+euro.sp.notFR = euro.sp[euro.sp$ne_10m_adm!="FRA",]
+
+#Palette de couleurs pour le relief:
+lvl.mnt   = seq(0,1900, by=100)
+nlvl.mnt  = length(lvl.mnt)
+col.mnt   = rev(c("#F5F4F2","#E0DED8","#CAC3B8","#BAAE9A","#AC9A7C","#AA8753",
+                  "#B9985A","#C3A76B","#CAB982","#D3CA9D","#DED6A3","#E8E1B6",
+                  "#EFEBC0","#E1E4B5","#D1D7AB","#BDCC96","#A8C68F","#94BF8B","#ACD0A5"))
+myPal.mnt = binned_pal(scales::manual_pal(col.mnt))
+
+# Palette de couleurs pour le shade:
+lvl.shd   = seq(0,254, by=0.5)
+nlvl.shd  = length(lvl.shd)
+col.shd   = gray.colors(n=100,start=0.9,end=0.1)
+myPal.shd = binned_pal(scales::manual_pal(col.shd))
+
+
+##########################################
+# plot 1: carte France avec relief  #
+##########################################
+
+mnt.rel.spdf <- as(mnt.rel, "SpatialPixelsDataFrame")
+mnt.rel.df <- as.data.frame(mnt.rel.spdf)
+colnames(mnt.rel.df) <- c("z", "x", "y")
+
+xlim =  c(0,1250000)
+ylim = c(1600000,2700000)
+map_relief = ggplot()+
+  scale_x_continuous("")+
+  scale_y_continuous("")+
+  theme_bw(base_size = 10)+
+  theme(plot.title = element_text( face="bold",  size=20,hjust=0.5))+
+  theme(axis.ticks =element_blank(),axis.text = element_blank() )+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.border = element_blank())+
+  theme(strip.text = element_text(size = 12, face = "bold"))+
+  geom_tile(data=mnt.rel.df, aes(x=x, y=y, fill=z))+
+  guides(fill=guide_colorbar(barwidth = 1.5, barheight = 20,
+                              frame.colour = "black", ticks.colour = "black",
+                              label.theme = element_text(size = 14, face = c("bold"),color=c("black")),
+                              title.theme=element_text(size = 14, face = "bold")))+
+  binned_scale(aesthetics = "fill",name="Elevation [m]",palette=myPal.mnt,limits=range(lvl.mnt),
+                guide="coloursteps",breaks=lvl.mnt)+
+  geom_sf(data=euro.sp.notFR,fill="white")+
+  geom_sf(data=river_L2,colour="#C7E3F1",linewidth=0.1,alpha=0.5)+
+  geom_sf(data=fr_L2,fill=NA,linewidth=0.1,color="black")+
+  geom_sf(data=mers.sp,fill="#C7E3F1")+
+  coord_sf(xlim = xlim, ylim = ylim,expand=FALSE)+
+  annotate("text", x = 500000, y = 1750000, label = "Pyrénées", size=12)+
+  annotate("text", x = 700000, y = 1900000, label = "Cévennes",angle=45, size=6)+
+  annotate("text", x = 650000, y = 2050000, label = "Massif", size=12)+
+  annotate("text", x = 650000, y = 2000000, label = "Central", size=12)+
+  annotate("text", x = 900000, y = 2040000, label = "Alps", size=12)+
+  annotate("text", x = 900000, y = 1770000, label = "Mediterranean",col="white", size=9)+
+  annotate("text", x = 900000, y = 1720000, label = "sea",col="white", size=9)+
+  annotate("text", x = 599767, y = 2429816, label = "Paris", size=12)+
+  annotate("text", x = 599767, y = 2429816-50000, label = "basin", size=12)+
+  annotate("text", x = 880000, y = 2200000, label = "Jura",angle=60, size=6)+
+  annotate("text", x = 950000, y = 2400000, label = "Vosges",angle=70, size=6)+
+  annotate("text", x = 1160000, y = 1700000, label = "Corsica",angle=90, size=6)+
+  annotation_scale(text_cex =1.5)
+  
+  
 ##########################################
 # plot 1: Parde coefficients per regime  #
 ##########################################
@@ -113,7 +208,7 @@ map_regime = base_map(data = coordsL2, zoom = "FR")+
                                "N" = "#0027a2ff")) +
   theme(legend.title=element_text(face = "bold",size=16), 
         legend.text=element_text(size=14)) +
-  annotation_scale(text_cex =1.5) + theme(legend.position="none")
+  theme(legend.position="none")
 
 
 ##########################################
@@ -143,9 +238,11 @@ map_budyko = base_map(data = dfBudyko,zoom="FR")+
                breaks=c(0, 0.375, 0.75, 1, 1.5, 2, 2.5),show.limits = T,oob=squish)+
   theme(plot.title = element_text(size = 20, face = "bold"),
         legend.title=element_text(face = "bold",size=14), legend.text=element_text(face = "bold",size=14))
-  
+
 
 # merge
-plt = ggarrange(barplot_CM,map_regime,map_budyko,ncol=2,nrow=2,heigths=c(20,20),widths = c(25, 23),
-                labels = c("A","B","C"),font.label = list(size = 20, color = "black", face = "bold", family = NULL))
+plt = (map_relief|map_budyko) / (barplot_CM+map_regime) + 
+  plot_layout(heights = c(20, 20),widths = c(25, 23)) + 
+  plot_annotation(tag_levels = 'A') & theme(plot.tag = element_text(size = 40, face = "bold"))
+
 ggsave(filename = "../FIGURES/Fig1_regime.jpg", plot=plt,device = "jpeg",units="cm",height=40,width=48,dpi=200)

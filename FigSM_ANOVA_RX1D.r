@@ -115,7 +115,7 @@ plt[["ANOVA"]] = base_map(data = out,zoom=zoom)+
 # PLOT 1: uncertainty climate change reponses and internal variability
 
 # tas : UNC, IV
-pUnc = plt$UNC + ggtitle("Year") + scale_y_continuous(name ="UNC") +
+pUnc = plt$UNC + ggtitle("Year") + scale_y_continuous(name ="CCRU") +
   theme(plot.title = element_text(hjust = 0.5,size = 40, face = "bold",color = "white"),
         axis.title.y=element_text(size=40, face = "bold"))
 pIV = plt$IV  + scale_y_continuous(name ="IV") +

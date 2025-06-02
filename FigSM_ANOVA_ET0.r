@@ -123,7 +123,7 @@ for(indic in c("evspsblpot_JJA","evspsblpot_DJF")){
 # PLOT 1: uncertainty climate change reponses and internal variability
 
 # ET0 : UNC, IV
-pET0JJAUnc = plt$evspsblpot_JJA$UNC + ggtitle("JJA") + scale_y_continuous(name ="UNC") +
+pET0JJAUnc = plt$evspsblpot_JJA$UNC + ggtitle("JJA") + scale_y_continuous(name ="CCRU") +
   theme(plot.title = element_text(hjust = 0.5,size = 40),
         axis.title.y=element_text(size=40, face = "bold"))
 pET0DJFUnc = plt$evspsblpot_DJF$UNC + ggtitle("DJF") +
