@@ -116,13 +116,13 @@ map_relief = ggplot()+
   annotate("text", x = 700000, y = 1900000, label = "Cévennes",angle=45, size=6)+
   annotate("text", x = 650000, y = 2050000, label = "Massif", size=12)+
   annotate("text", x = 650000, y = 2000000, label = "Central", size=12)+
-  annotate("text", x = 900000, y = 2040000, label = "Alps", size=12)+
-  annotate("text", x = 900000, y = 1770000, label = "Mediterranean",col="white", size=9)+
-  annotate("text", x = 900000, y = 1720000, label = "sea",col="white", size=9)+
+  annotate("text", x = 900000, y = 2000000, label = "Alps", size=12)+
+  annotate("text", x = 900000, y = 1770000, label = "Mediterranean",col="darkblue", size=9)+
+  annotate("text", x = 900000, y = 1720000, label = "sea",col="darkblue", size=9)+
   annotate("text", x = 599767, y = 2429816, label = "Paris", size=12)+
-  annotate("text", x = 599767, y = 2429816-50000, label = "basin", size=12)+
+  annotate("text", x = 599767, y = 2429816-50000, label = "Basin", size=12)+
   annotate("text", x = 880000, y = 2200000, label = "Jura",angle=60, size=6)+
-  annotate("text", x = 950000, y = 2400000, label = "Vosges",angle=70, size=6)+
+  annotate("text", x = 950000, y = 2350000, label = "Vosges",angle=70, size=6)+
   annotate("text", x = 1160000, y = 1700000, label = "Corsica",angle=90, size=6)+
   annotation_scale(text_cex =1.5)
   
