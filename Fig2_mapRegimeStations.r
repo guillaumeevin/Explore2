@@ -28,10 +28,10 @@ background_for_maps(path_river,path_fr)
 
 #######
 # colors
-colRegime = c("PVC" = "#148530ff",
-              "PC" ="#21de50ff",
+colRegime = c("HCP" = "#148530ff",
+              "CP" ="#21de50ff",
               "P" = "#7aeb96ff",
-              "PNC" = "#d3f8dcff",
+              "NCP" = "#d3f8dcff",
               "PN" = "#88c4ffff",
               "NP" = "#2291ffff",
               "N" = "#0027a2ff")
@@ -69,6 +69,8 @@ euro.sp.notFR = euro.sp[euro.sp$ne_10m_adm!="FRA",]
 
 #Palette de couleurs pour le relief:
 lvl.mnt   = seq(0,1900, by=100)
+lab.mnt = c("0","","200","","400","","600","","800","","1000","","1200","",
+            "1400","","1600","","1800","")
 nlvl.mnt  = length(lvl.mnt)
 col.mnt   = rev(c("#F5F4F2","#E0DED8","#CAC3B8","#BAAE9A","#AC9A7C","#AA8753",
                   "#B9985A","#C3A76B","#CAB982","#D3CA9D","#DED6A3","#E8E1B6",
@@ -106,24 +108,27 @@ map_relief = ggplot()+
                               label.theme = element_text(size = 14, face = c("bold"),color=c("black")),
                               title.theme=element_text(size = 14, face = "bold")))+
   binned_scale(aesthetics = "fill",name="Elevation [m]",palette=myPal.mnt,limits=range(lvl.mnt),
-                guide="coloursteps",breaks=lvl.mnt)+
+                guide="coloursteps",breaks=lvl.mnt,labels = lab.mnt)+
   geom_sf(data=euro.sp.notFR,fill="white")+
   geom_sf(data=river_L2,colour="#C7E3F1",linewidth=0.1,alpha=0.5)+
   geom_sf(data=fr_L2,fill=NA,linewidth=0.1,color="black")+
   geom_sf(data=mers.sp,fill="#C7E3F1")+
   coord_sf(xlim = xlim, ylim = ylim,expand=FALSE)+
-  annotate("text", x = 500000, y = 1750000, label = "Pyrénées", size=12)+
-  annotate("text", x = 700000, y = 1900000, label = "Cévennes",angle=45, size=6)+
-  annotate("text", x = 650000, y = 2050000, label = "Massif", size=12)+
-  annotate("text", x = 650000, y = 2000000, label = "Central", size=12)+
-  annotate("text", x = 900000, y = 2000000, label = "Alps", size=12)+
+  annotate("text", x = 500000, y = 1750000, label = "Pyrénées", size=9)+
+  annotate("text", x = 700000, y = 1920000, label = "Cévennes",angle=45, size=9)+
+  annotate("text", x = 650000, y = 2050000, label = "Massif", size=9)+
+  annotate("text", x = 650000, y = 2000000, label = "Central", size=9)+
+  annotate("text", x = 900000, y = 2000000, label = "Alps", size=9)+
   annotate("text", x = 900000, y = 1770000, label = "Mediterranean",col="darkblue", size=9)+
   annotate("text", x = 900000, y = 1720000, label = "sea",col="darkblue", size=9)+
-  annotate("text", x = 599767, y = 2429816, label = "Paris", size=12)+
-  annotate("text", x = 599767, y = 2429816-50000, label = "Basin", size=12)+
-  annotate("text", x = 880000, y = 2200000, label = "Jura",angle=60, size=6)+
-  annotate("text", x = 950000, y = 2350000, label = "Vosges",angle=70, size=6)+
-  annotate("text", x = 1160000, y = 1700000, label = "Corsica",angle=90, size=6)+
+  annotate("text", x = 150000, y = 2100000, label = "Atlantic",angle=90,col="darkblue", size=9)+
+  annotate("text", x = 200000, y = 2100000, label = "Ocean",angle=90,col="darkblue", size=9)+
+  annotate("text", x = 320000, y = 2600000, label = "English Channel",angle=10,col="darkblue", size=9)+
+  annotate("text", x = 599767, y = 2429816, label = "Paris", size=9)+
+  annotate("text", x = 599767, y = 2429816-50000, label = "Basin", size=9)+
+  annotate("text", x = 880000, y = 2200000, label = "Jura",angle=60, size=9)+
+  annotate("text", x = 940000, y = 2350000, label = "Vosges",angle=70, size=9)+
+  annotate("text", x = 1160000, y = 1710000, label = "Corsica",angle=90, size=9)+
   annotation_scale(text_cex =1.5)
   
   
@@ -132,21 +137,21 @@ map_relief = ggplot()+
 ##########################################
 data <- tibble(Month = 1:12,
                P = c(0.125,0.131,0.117,0.114,0.100,0.064,0.043,0.032,0.033,0.054,0.076,0.109),
-               PC = (c(0.147,0.151,0.114,0.112,0.093,0.051,0.028,0.020,0.022,0.050,0.083,0.128)+
+               CP = (c(0.147,0.151,0.114,0.112,0.093,0.051,0.028,0.020,0.022,0.050,0.083,0.128)+
                        c(0.131,0.128,0.115,0.098,0.079,0.051,0.033,0.023,0.032,0.070,0.103,0.129))/2,
-               PVC=c(0.179,0.169,0.126,0.098,0.065,0.038,0.025,0.016,0.018,0.042,0.079,0.138),
-               PNC=c(0.103,0.101,0.101,0.095,0.085,0.076,0.069,0.063,0.063,0.068,0.077,0.091),
+               HCP=c(0.179,0.169,0.126,0.098,0.065,0.038,0.025,0.016,0.018,0.042,0.079,0.138),
+               NCP=c(0.103,0.101,0.101,0.095,0.085,0.076,0.069,0.063,0.063,0.068,0.077,0.091),
                PN=c(0.118,0.099,0.090,0.105,0.100,0.044,0.023,0.016,0.039,0.106,0.138,0.126),
                NP=c(0.090,0.091,0.104,0.125,0.131,0.079,0.047,0.032,0.042,0.078,0.088,0.091),
                N=c(0.033,0.031,0.043,0.070,0.154,0.202,0.141,0.081,0.067,0.068,0.055,0.038))
 
 # labels
 datalong <- gather(data, key="Regime", value="CM", -Month)
-datalong$Regime = factor(datalong$Regime,levels=c("PVC","PC","P","PNC","PN","NP","N"))
-regime_label <- c("Pluvial - Very contrasted (PVC)", "Pluvio-Nival (PN)",
-                  "Pluvial - Contrasted (PC)", "Nivo-Pluvial (NP)", "Pluvial (P)",
-                  "Nival (N)","Pluvial - Not contrasted (PNC)")
-names(regime_label) = c("PVC","PN","PC","NP","P","N","PNC")
+datalong$Regime = factor(datalong$Regime,levels=c("HCP","CP","P","NCP","PN","NP","N"))
+regime_label <- c("Highly Contrasted Pluvial (HCP)", "Pluvio-Nival (PN)",
+                  "Contrasted Pluvial (CP)", "Nivo-Pluvial (NP)", "Pluvial (P)",
+                  "Nival (N)","Non-Contrasted Pluvial (NCP)")
+names(regime_label) = c("HCP","PN","CP","NP","P","N","NCP")
 
 # plot 2: seasonality of the monthly mean flow by regime
 barplot_CM = ggplot(datalong, aes(x=Month, y=CM,fill=Regime))+

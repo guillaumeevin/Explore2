@@ -39,13 +39,13 @@ iBasinReg = match(code_sel,dfAllRegime$code)
 dfRegime = dfAllRegime[iBasinReg,]
 dfRegime$hydro_regime = factor(dfRegime$hydro_regime, 
                                levels=c("PTC","PC","P","PMC","PN","NP","N"),
-                               labels = c("PVC","PC","P","PNC","PN","NP","N"))
+                               labels = c("HCP","CP","P","NCP","PN","NP","N"))
 nPoints = nrow(dfRegime)
 
-colRegime = c("PVC" = "#148530ff",
-              "PC" ="#21de50ff",
+colRegime = c("HCP" = "#148530ff",
+              "CP" ="#21de50ff",
               "P" = "#7aeb96ff",
-              "PNC" = "#d3f8dcff",
+              "NCP" = "#d3f8dcff",
               "PN" = "#88c4ffff",
               "NP" = "#2291ffff",
               "N" = "#0027a2ff")
